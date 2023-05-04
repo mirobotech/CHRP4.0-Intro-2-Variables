@@ -1,10 +1,10 @@
 /*==============================================================================
  Project: Intro-2-Variables             Activity: mirobo.tech/chrp4-intro-2
- Date:    April 26, 2023
+ Date:    May 4, 2023
  
  This introductory programming activity for the mirobo.tech CHRP4 demonstrates
- the use of byte (char) constants and variables to count button presses and then
- to trigger actions when a limit is reached.
+ the use of byte (char) constants and variables to count button presses and to
+ then trigger actions when a limit is reached.
   
  Additional program analysis and programming activities demonstrate the use of
  bit (Boolean, or bool) variables to store state for preventing multiple counts
@@ -94,8 +94,8 @@ int main(void)
  *    been written to use this statement instead: if(SW2Count >= 50)
  * 
  *    Can you think of any advantages of declaring a constant first, using a 
- *    declaration statement above the main code, rather than just embedding the
- *    value of the constant wherever it is needed in the code?
+ *    declaration statement above the main code like this, rather than just
+ *    embedding the value of the constant wherever it is needed in the code?
  * 
  * 3. This program should light LED D2 every time SW2 is pressed, and light
  *    LED D3 when the count reaches 50. Try it, and count how many times you
@@ -141,17 +141,19 @@ int main(void)
  *    operation of LED D3 when SW2 is held?
  *
  * 6. The fundamental problem with this program is that pushbutton SW2 is sensed
- *    during each cycle of the main loop, and whenever SW2 is read, if it's
- *    pressed, another count is added to the SW2Count variable. This is becasue
- *    the program, as currenlty written, responds only to switch SW2 state. If
- *    SW2 is pressed, a count is added.
+ *    during each cycle of the main() loop, and if SW2 happens to be pressed 
+ *    when it is read, another count is added to the SW2Count variable. As it is
+ *    currenlty written, the program responds only to switch SW2 state. If SW2
+ *    is pressed, a count is added for every cycle of the main() function. Since
+ *    microcontrollers are fast, the count adds up very quickly.
  * 
- *    Instead, we want the program to respond to a *change* of SW2 state, from
- *    not-pressed to pressed. Doing this requires the use of another variable
- *    to store the prior state of SW2, so that its current state can be 
- *    evaluated to be either the same, or different, from its state in the
- *    previous iteration of the main() loop. Replace the initial if-else
- *    condition structure with the following two if condition structures:
+ *    Instead of responding to the state of SW2, we want the program to respond
+ *    to a *change* of SW2 state, from the not-pressed state to the pressed
+ *    state. Doing this requires the use of a second variable to store the prior
+ *    state of SW2, so that its current state can be evaluated as being either
+ *    the same, or different, from its state during the previous iteration of
+ *    the main() loop. Replace the initial if-else condition structure with the
+ *    following two if condition structures:
 
         // Count new SW2 button presses
         if(SW2 == 0 && SW2Pressed == false)
@@ -173,15 +175,17 @@ int main(void)
         
  *    These two if conditions make use of the Boolean SW2Pressed variable to
  *    store the current state of SW2 for every cycle of the main() while loop.
- *    Boolean variables can store either 0/false or 1/true. The first if
+ *    Boolean variables can store either 0/false, or 1/true. The first 'if'
  *    condition, above, compares the current SW2 state with the previously
  *    stored SW2Pressed variable, and only adds to the count when SW2 is being
- *    pressed while the SW2Pressed Boolean variable is false. In this case the
- *    switch press is a new press, and the state of the Boolean variable will 
- *    be switched to true before checking and incrementing SW2Count.
+ *    pressed *and* the SW2Pressed Boolean variable is false. In this case the
+ *    switch press must be a new press, and the state of the Boolean variable
+ *    will be switched to true before checking and incrementing SW2Count.
  * 
- *    The next if structure resets the SW2Pressed Boolean to false when SW2
- *    is released, and enables the process to repeat. Try the code to verify
+ *    After SW2Pressed is set, the SW2Count variable will not be able to 
+ *    increment again so it must be reset when the button is released. The next
+ *    if structure does that, reseting the SW2Pressed Boolean to false when SW2
+ *    is released, and enabling the process to repeat. Try the code to verify
  *    that it works.
  * 
  *    The conditional statement in the first if condition can also be written:
@@ -230,12 +234,12 @@ int main(void)
  * Programming Activities
  * 
  * 1. Can you make a two-player rapid-clicker style game using this program as 
- *    a starting point? Let's use SW5 for the second player's pushbutton so that
- *    the two players can face each other from across the CHRP4 circuit board.
+ *    a starting point? Use SW5 for the second player's pushbutton so that the
+ *    two players can face each other from across the CHRP4 circuit board.
  *    Duplicate the SW2Count and SW2Pressed variables to create SW5Count and
- *    SW5Pressed variables. Then, duplicate the required if condition structures
- *    modifying the variable names to represent the second player. LED D3 can
- *    still light if player 1 is the first to reach maxCount. Use LED D4 to
+ *    SW5Pressed variables. Then, duplicate the if condition structures to
+ *    modify the variable names to represent the second player. LED D3 can still
+ *    light if player 1 is the first to reach maxCount and wins. Use LED D4 to
  *    indicate when player 2 wins. Use a logical condition statement to reset
  *    the game by clearing both players' counts as well as turning off the LEDs
  *    if either SW3 or SW4 is pressed.
@@ -262,17 +266,17 @@ int main(void)
  *    in response to one button press.
  * 
  *    Create a program that uses a variable to count the number of times a
- *    pushbutton is pressed and then display the count on the LEDs. Use a second
- *    pushbutton to reset the count and to turn off the LEDs so that the test
- *    can be repeated. To determine if your switches bounce, try pressing them
- *    at various speeds and using different amounts of force.
+ *    pushbutton is pressed and to then display the count on the LEDs. Use a
+ *    second pushbutton to reset the count and to turn off the LEDs so that the
+ *    test can be repeated. To determine if your switches bounce, try pressing
+ *    them at various rates of speed and using different amounts of force.
  * 
  * 5. Did your pushbuttons bounce? Can you think of a technique similar to the
  *    multi-function button that could be implemented to allow your program to
  *    ignore switch bounces?
  * 
  *    Typical switch bounces appear as multiple switch activations within a
- *    10ms time span. So, if we make our program ignore any new switch
+ *    10ms time span. So, if our program can be made to ignore any new switch
  *    activations for 20ms after the first switch closure, it should eliminate
  *    the effects of bounce. See if you can add switch de-bouncing code to your
  *    bounce counting program in 4, above. 
