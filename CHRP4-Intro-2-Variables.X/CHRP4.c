@@ -1,11 +1,13 @@
 /*==============================================================================
  File: CHRP4.c
- Date: April 24, 2023
+ Date: May 16, 2023
  
  CHRP4 (PIC16F1459) hardware initialization functions
  
- Initialization functions to configure the PIC16F1459 oscillator and on-board
- CHRP4 devices. Include CHRP4.h in your main program to call these functions.
+ Initialization functions used to configure the PIC16F1459 oscillator, on-board
+ CHRP4 I/O devices, and ADC (analog-to-digital converter), as well as ADC
+ channel selection and conversion functions. Include the CHRP4.h file in your
+ main program to call these functions. Add or modify functions as needed.
 ==============================================================================*/
 
 #include    "xc.h"              // XC compiler general include file
@@ -15,9 +17,7 @@
 
 #include    "CHRP4.h"           // Include CHRP4 constant & function definitions
 
-// TODO Initialize oscillator, ports and other PIC/CHRP4 hardware features here:
-
-// Configure oscillator for 48 MHz operation (required for USB uC bootloader).
+// Configure oscillator for 48 MHz operation (required for USB-uC bootloader).
 void OSC_config(void)
 {
     OSCCON = 0xFC;              // Set 16MHz HFINTOSC with 3x PLL enabled
@@ -42,10 +42,10 @@ void CHRP4_config(void)
     WPUB = 0b11110000;          // Enable weak pull-ups on pushbutton inputs
 
     LATC = 0b00000000;          // Clear Port C latches before configuring PORTC
-    TRISC = 0b00001100;         // Set phototransistor pins as inputs
+    TRISC = 0b00001100;         // Enable phototransistor Q1/Q3, Q2/Q4 inputs
     ANSELC = 0b00000000;        // Disable analog input on all PORT C input pins
 
-    // Enable interrupts here, if required.
+    // TODO - Enable interrupts here, if required.
 }
 
 // Configure ADC for 8-bit conversion. Set on-board phototransistor Q1 as input.
@@ -55,7 +55,7 @@ void ADC_config(void)
     
     // Enable analog input and disable digital output for each analog pin below:
     TRISCbits.TRISC2 = 1;       // Disable Q1/Q3 output driver (TRISx.bit = 1)
-    TRISCbits.TRISC3 = 1;       // Disable Q2/Q4 output driver (TRISx.bit = 1)
+    TRISCbits.TRISC3 = 1;       // Disable Q2/Q4 output driver
     ANSELC = 0b00001100;        // Enable Q1 & Q2 analog input (ANSELx.bit = 1)
     
     // General ADC setup and configuration
@@ -73,7 +73,7 @@ void ADC_select_channel(unsigned char channel)
     ADCON0 = (ADCON0 | channel);	// Set channel by ORing with channel constant
 }
 
-// Convert currently selected channel and return an 8-bit conversion result.
+// Convert the currently selected channel and return an 8-bit conversion result.
 unsigned char ADC_read(void)
 {
     GO = 1;                     // Start the conversion by setting Go/~Done bit

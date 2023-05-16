@@ -1,27 +1,29 @@
 /*==============================================================================
  File: CHRP4.h
- Date: April 24, 2023
+ Date: May 16, 2023
  
  CHRP4 (PIC16F1459) symbolic constant and function definitions.
  
- I/O pin definitions section:
- Inputs read port registers (e.g. PORTC) and outputs write to port latches
- (e.g. LATC) on the PIC16F1459. Create unique symbolic names for each input
- and output device connected to the CHRP4 PIC I/O pins. Some pins have more
- than one name, one of which is more descriptive and matches the CHRP4 pin
- names (e.g. D1 and LED1 refer to the same LED).
+ I/O pin definitions sections:
+ These sections assign unique symbolic names to on-board CHRP4 input and output
+ devices making it easier to address them instead of using PIC16F1459 pin names.
+ In the PIC16F1459 microcontroller, digital inputs are read through port
+ registers (e.g. PORTC) and digital outputs write to port latches (e.g. LATC).
+ Some pins are assigned more than one name to match older versions of the
+ circuit board (e.g. D1 and LED1 refer to the same LED), while other pins have
+ both an input definition as well as an output definition (e.g. H1IN and H1OUT).
+ Add or modify symbolic definitions as needed.
  
  ADC input channel definitions section:
- Create definitions representing the ADCON0 register channel select (CHS) bits
- for each ADC channel available on CHRP4.
+ Definitions representing the ADCON0 register channel select (CHS) bits used to
+ represent each ADC channel available on CHRP4. These definitions are used with
+ the ADC_select_channel and ADC_read_channel functions.
  
  Function prototypes section:
- Functions in the CHRP4.c file must be defined before they are called from the
- main user program. This section defines function prototypes for each of the
- functions in the CHRP4.c file.
+ Function prototype definitions for each of the functions in the CHRP4.c file
+ are located here. Function prototypes must exist for all external functions
+ before they can be called from within the main program code.
 ==============================================================================*/
-
-// TODO - Add/modify user constant definitions for CHRP4 hardware here.
 
 // PORTA I/O pin definitions
 #define SW1         PORTAbits.RA3   // SW1/PROG/Reset (MCLR) pushbutton input
@@ -85,7 +87,7 @@
 #define M2B         LATCbits.LATC7  // Motor 2B output
 #define MOTOR2B     LATCbits.LATC7  // Motor 2B output
 
-// ADC (A-D converter) input channel definitions for read_ADC() function
+// ADC (A-D converter) input channel definitions
 #define AN6         0b00011000      // A-D converter channel 6 input
 #define ANQ1        0b00011000      // Floor sensor Q1 analogue input (Ch6)
 #define ANQ3        0b00011000      // Floor sensor Q3 analogue input (Ch6)
@@ -153,4 +155,5 @@ unsigned char ADC_read(void);
  */
 unsigned char ADC_read_channel(unsigned char);
 
-// TODO - Add additional function prototypes for new functions in CHRP4.c here.
+// TODO - Add additional function prototypes for any new functions added to
+// the CHRP4.c file here.
