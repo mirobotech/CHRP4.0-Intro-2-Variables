@@ -1,6 +1,6 @@
 /*==============================================================================
- Project: Intro-2-Variables             Activity: mirobo.tech/chrp4-intro-2
- Date:    May 16, 2023
+ Project: Intro-2-Variables             Activity: mirobo.tech/intro-2
+ Date:    August 11, 2023
  
  This introductory programming activity for the mirobo.tech CHRP4 demonstrates
  the use of byte (char) constants and variables to count button presses and to
